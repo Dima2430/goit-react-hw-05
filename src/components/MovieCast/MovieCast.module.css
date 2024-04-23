@@ -1,0 +1,19 @@
+.actorContainer {
+  background-color: antiquewhite;
+  border-radius: 10px;
+  padding: 2px;
+  max-width: 150px;
+}
+
+.actorList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.img {
+  border-radius: 10px;
+}
+.noImageText {
+  color: red;
+  font-weight: bold;
+}

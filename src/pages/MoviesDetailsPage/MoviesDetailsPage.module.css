@@ -1,0 +1,10 @@
+.flexContainer {
+  display: flex;
+}
+.movieDetails {
+  margin-top: 50px;
+  margin-left: 30px;
+}
+.link {
+  margin-right: 10px;
+}

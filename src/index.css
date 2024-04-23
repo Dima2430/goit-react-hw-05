@@ -12,7 +12,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -21,13 +25,16 @@ a {
 a:hover {
   color: #535bf2;
 }
-
+img {
+  display: block;
+}
 body {
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 h1 {
