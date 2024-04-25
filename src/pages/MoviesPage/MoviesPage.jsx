@@ -1,20 +1,22 @@
+import { useSearchParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useState, useEffect } from "react";
 import MovieList from "../../components/MovieList/MovieList";
 import axios from "axios";
 import Loader from "../../components/Loader/Loader";
+
 export default function MoviesPage() {
-  const [query, setQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         setLoading(true);
-        const url = `https://api.themoviedb.org/3/search/movie?query=${searchQuery}&include_adult=false&language=en-US&page=1`;
+        const query = searchParams.get("query") || "";
+        const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
 
         const options = {
           method: "GET",
@@ -35,16 +37,16 @@ export default function MoviesPage() {
     };
 
     fetchMovies();
-  }, [searchQuery]);
+  }, [searchParams]);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+    const query = e.target.elements.query.value;
     if (query.trim() === "") {
       toast.error("Please, enter text to search for images");
       return;
     }
-    setSearchQuery(query);
-    setQuery("");
+    setSearchParams({ query });
   };
 
   return (
@@ -58,12 +60,12 @@ export default function MoviesPage() {
       >
         <form onSubmit={onFormSubmit}>
           <input
+            name="query"
             type="text"
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            defaultValue={searchParams.get("query") || ""}
           />
           <button type="submit">Search</button>
           <Toaster />
@@ -72,7 +74,11 @@ export default function MoviesPage() {
       {loading ? (
         <Loader />
       ) : (
-        <>{searchQuery && <MovieList movies={movies} error={error} />}</>
+        <>
+          {searchParams.get("query") && (
+            <MovieList movies={movies} error={error} />
+          )}
+        </>
       )}
     </>
   );

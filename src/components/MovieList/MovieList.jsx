@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import css from "./MovieList.module.css";
 import { useState } from "react";
 import { useRef } from "react";
 
 const MovieList = ({ loading, error, movies }) => {
+  const location = useLocation();
   const [newImg, setNewImg] = useState(null);
   const [scrollPos, setScrollPos] = useState(0);
   const listRef = useRef(null);
@@ -41,7 +42,13 @@ const MovieList = ({ loading, error, movies }) => {
           style={{ transform: `translateX(-${scrollPos}px)` }}
         >
           {movies.map((movie) => (
-            <Link to={`/movies/${movie.id}`} key={movie.id}>
+            <Link
+              to={{
+                pathname: `/movies/${movie.id}`,
+                state: { from: location.pathname },
+              }}
+              key={movie.id}
+            >
               <li
                 className={newImg === movie.id ? css.focusItem : css.listItem}
                 onMouseEnter={() => setNewImg(movie.id)}
